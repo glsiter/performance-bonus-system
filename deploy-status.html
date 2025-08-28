@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部署状态检查 - 年终考核加分管理系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .status-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .status-success {
+            color: #67c23a;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .link-button {
+            display: block;
+            padding: 15px 20px;
+            background: #409eff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        .link-button:hover {
+            background: #66b1ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-card">
+        <h1 class="status-success">✅ 项目已成功部署到 Vercel</h1>
+        <p>所有配置已优化完成，现在可以通过以下链接访问：</p>
+        
+        <div class="links">
+            <a href="/" class="link-button">🏠 主页面</a>
+            <a href="/simple" class="link-button">📊 简化版</a>
+            <a href="/complete" class="link-button">📈 完整版</a>
+            <a href="/editable" class="link-button">✏️ 可编辑版</a>
+            <a href="/cloud" class="link-button">☁️ 云端版</a>
+            <a href="/supabase" class="link-button">🗄️ Supabase版</a>
+        </div>
+        
+        <p style="margin-top: 30px; color: #666;">
+            如果某个链接打不开，请等待1-2分钟后刷新页面<br>
+            部署状态可在 <a href="https://vercel.com/glsiters-projects/performance-bonus-system" target="_blank">Vercel控制台</a> 查看
+        </p>
+    </div>
+</body>
+</html>
