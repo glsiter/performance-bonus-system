@@ -1,38 +1,30 @@
 # Dependencies
-node_modules
-*/node_modules
+node_modules/
+*/node_modules/
 
-# Analysis files (too large for deployment)
-analysis_results/
-complete_analysis/
-venv/
-__pycache__/
-*.pyc
+# Production builds
+dist/
+*/dist/
+build/
+*/build/
 
-# Development files
+# Environment variables
+.env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*.local
 
 # Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory
-coverage/
-*.lcov
-
-# Editor directories
+# Editor directories and files
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # OS generated files
 .DS_Store
@@ -43,15 +35,33 @@ coverage/
 ehthumbs.db
 Thumbs.db
 
-# Python virtual environment
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
 venv/
 env/
+ENV/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Database
+*.db
+*.sqlite
+
+# Development files
+NOTES.md
+TODO.md
+README.md
+DEPLOY_VERCEL.md
+SUPABASE_SETUP.md
+
+# Backend development
+backend/
+database/
 *.py
-
-# Excel files (original data)
-*.xlsx
-*.xls
-
-# Large analysis files
-*_data.json
-*.sql
+requirements.txt

@@ -14,7 +14,7 @@
   "routes": [
     {
       "src": "/",
-      "dest": "/supabase_system.html"
+      "dest": "/index.html"
     },
     {
       "src": "/simple",
@@ -33,20 +33,44 @@
       "dest": "/supabase_system.html"
     },
     {
+      "src": "/supabase",
+      "dest": "/supabase_system.html"
+    },
+    {
       "src": "/frontend/(.*)",
       "dest": "/frontend/$1"
     },
     {
-      "src": "/(.*\\.(html|css|js|ico|png|jpg|svg))",
+      "src": "/(.*\\.(html|css|js|ico|png|jpg|svg|json|txt|xml))",
       "dest": "/$1"
     }
   ],
   "functions": {
     "frontend/src/**/*.js": {
-      "runtime": "@vercel/node@18"
+      "runtime": "nodejs18.x"
     }
   },
   "env": {
     "NODE_VERSION": "18"
-  }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
 }
