@@ -9,6 +9,9 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <!-- Supabase客户端 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         * {
             margin: 0;
@@ -436,21 +439,222 @@
         .message.error {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
+        
+        /* 编辑功能样式 */
+        .large-modal .modal-content {
+            width: 95%;
+            max-width: 1200px;
+            height: 90vh;
+            max-height: 90vh;
+        }
+        
+        .edit-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        
+        .left-actions, .right-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s;
+            width: 250px;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        #edit-table-container {
+            flex: 1;
+            overflow: auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .edit-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        .edit-table th,
+        .edit-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .edit-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .edit-table tr:hover {
+            background-color: #f8f9ff;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+        
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #4e9a29 0%, #97d9b8 100%);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #e8881c 0%, #e6c200 100%);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e7e 100%);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333 0%, #fc6969 100%);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        /* 空状态样式 */
+        .empty-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-data i {
+            font-size: 64px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .empty-data h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .large-modal .modal-content {
+                width: 98%;
+                height: 95vh;
+            }
+            
+            .action-bar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .left-actions, .right-actions {
+                justify-content: center;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            .edit-table {
+                font-size: 12px;
+            }
+            
+            .edit-table th,
+            .edit-table td {
+                padding: 8px 4px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 返回主页按钮 -->
-        <div style="text-align: center; margin-bottom: 20px;">
-            <a href="index.html" class="btn btn-outline" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 25px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s;">
-                <i class="fas fa-home"></i> 返回主页面
-            </a>
-        </div>
-        
         <!-- 顶部标题 -->
         <div class="header">
-            <h1>外国语学院年终考核完整管理系统</h1>
-            <p>数据概览与统计分析</p>
+            <h1><i class="fas fa-chart-line"></i> 外国语学院年终考核完整管理系统</h1>
+            <p>2022年度年终考核各项加分情况统计 - 完整版本包含15个工作表</p>
         </div>
 
         <!-- 统计概览 -->
@@ -516,6 +720,74 @@
         </div>
     </div>
 
+    <!-- 编辑数据模态框 -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="edit-modal-title">数据管理</h3>
+                <button class="close-btn" onclick="closeEditModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="edit-content">
+                    <!-- 操作按钮区 -->
+                    <div class="action-bar">
+                        <div class="left-actions">
+                            <button class="btn btn-success" onclick="showAddForm()">
+                                <i class="fas fa-plus"></i> 添加数据
+                            </button>
+                            <button class="btn btn-info" onclick="refreshEditData()">
+                                <i class="fas fa-sync-alt"></i> 刷新数据
+                            </button>
+                        </div>
+                        <div class="right-actions">
+                            <input type="text" id="search-input" placeholder="搜索数据..." 
+                                   onkeyup="filterEditTable()" class="search-input">
+                            <button class="btn btn-outline" onclick="exportCurrentData()">
+                                <i class="fas fa-download"></i> 导出数据
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 数据表格区 -->
+                    <div id="edit-table-container">
+                        <!-- 编辑表格将在这里显示 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据表单模态框 -->
+    <div id="form-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="form-modal-title">添加数据</h3>
+                <button class="close-btn" onclick="closeFormModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="data-form">
+                    <div id="form-fields">
+                        <!-- 表单字段将在这里生成 -->
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeFormModal()">取消</button>
+                        <button type="button" class="btn btn-primary" onclick="saveFormData()">
+                            <span id="save-text">保存</span>
+                            <i id="save-loading" class="fas fa-spinner fa-spin" style="display: none;"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入Supabase API客户端 -->
+    <script src="database/supabase_api.js"></script>
+    
     <script>
         // 工作表配置数据
         const sheetsConfig = {
@@ -711,6 +983,9 @@
                             <button class="btn btn-primary" onclick="event.stopPropagation(); openSheetModal('${key}')">
                                 <i class="fas fa-eye"></i> 查看数据
                             </button>
+                            <button class="btn btn-success" onclick="event.stopPropagation(); openEditModal('${key}')">
+                                <i class="fas fa-edit"></i> 管理数据
+                            </button>
                             <button class="btn btn-outline" onclick="event.stopPropagation(); exportSheetData('${key}')">
                                 <i class="fas fa-download"></i> 导出
                             </button>
@@ -833,6 +1108,701 @@
             showMessage(`${config.name} 数据导出成功`, 'success');
         }
 
+        // 编辑功能相关变量
+        let currentEditSheet = '';
+        let currentEditData = {};
+        let currentEditingId = null;
+        let useSupabase = true; // 是否使用Supabase数据库
+
+        // 打开编辑模态框
+        async function openEditModal(sheetKey) {
+            currentEditSheet = sheetKey;
+            const config = sheetsConfig[sheetKey];
+            if (!config) return;
+
+            document.getElementById('edit-modal-title').textContent = `${config.name} - 数据管理`;
+            
+            // 显示加载状态
+            document.getElementById('edit-table-container').innerHTML = `
+                <div class="loading-container" style="text-align: center; padding: 60px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 32px; color: #667eea;"></i>
+                    <p style="margin-top: 20px; color: #666;">正在加载数据...</p>
+                </div>
+            `;
+            
+            document.getElementById('edit-modal').classList.add('active');
+            
+            // 加载数据
+            await loadEditData(sheetKey);
+            renderEditTable(sheetKey);
+        }
+
+        // 加载编辑数据
+        async function loadEditData(sheetKey) {
+            try {
+                if (useSupabase && window.dbAPI) {
+                    // 从Supabase加载数据
+                    const data = await window.dbAPI.getAll(sheetKey);
+                    currentEditData[sheetKey] = data || [];
+                } else {
+                    // 使用示例数据
+                    if (!currentEditData[sheetKey]) {
+                        currentEditData[sheetKey] = generateSampleEditData(sheetKey);
+                    }
+                }
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                showMessage('加载数据失败，使用示例数据', 'error');
+                currentEditData[sheetKey] = generateSampleEditData(sheetKey);
+            }
+        }
+
+        // 关闭编辑模态框
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.remove('active');
+            currentEditSheet = '';
+        }
+
+        // 生成示例编辑数据
+        function generateSampleEditData(sheetKey) {
+            const config = sheetsConfig[sheetKey];
+            const sampleData = [];
+            
+            // 根据不同工作表生成适当的示例数据
+            switch (sheetKey) {
+                case '学生评教':
+                    for (let i = 1; i <= 10; i++) {
+                        sampleData.push({
+                            id: `teacher_${i}`,
+                            teacher_name: `教师${i}`,
+                            semester1_score: (90 + Math.random() * 10).toFixed(1),
+                            semester2_score: Math.random() > 0.3 ? (85 + Math.random() * 15).toFixed(1) : '',
+                            school_rank: i + Math.floor(Math.random() * 20),
+                            college_rank: i,
+                            bonus_points: 30,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '调停课':
+                    for (let i = 1; i <= 5; i++) {
+                        sampleData.push({
+                            id: `adjustment_${i}`,
+                            teacher_name: `教师${i}`,
+                            major_course_count: Math.floor(Math.random() * 6),
+                            english_course_count: Math.floor(Math.random() * 4),
+                            total_count: 0,
+                            deduction: 0,
+                            reason: '临时调课',
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '指导学生项目统计':
+                    for (let i = 1; i <= 5; i++) {
+                        sampleData.push({
+                            id: `project_${i}`,
+                            teacher_name: `指导教师${i}`,
+                            project_name: `学生创新项目${i}`,
+                            project_type: ['创新创业', '学科竞赛', '毕业设计'][Math.floor(Math.random() * 3)],
+                            student_count: Math.floor(Math.random() * 5) + 1,
+                            bonus_points: [5, 10, 15][Math.floor(Math.random() * 3)],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '管理人员服务对象打分':
+                    for (let i = 1; i <= 3; i++) {
+                        sampleData.push({
+                            id: `manager_${i}`,
+                            manager_name: `管理人员${i}`,
+                            service_target: `服务对象${i}`,
+                            total_score: Math.floor(Math.random() * 100) + 400,
+                            evaluation_count: Math.floor(Math.random() * 10) + 5,
+                            average_score: (80 + Math.random() * 20).toFixed(2),
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '校级项目统计':
+                    for (let i = 1; i <= 4; i++) {
+                        sampleData.push({
+                            id: `school_project_${i}`,
+                            project_name: `校级项目${i}`,
+                            leader_name: `项目负责人${i}`,
+                            project_type: ['教研项目', '科研项目', '教改项目'][Math.floor(Math.random() * 3)],
+                            start_time: `2022-0${Math.floor(Math.random() * 9) + 1}-01`,
+                            project_status: ['在研', '结题', '延期'][Math.floor(Math.random() * 3)],
+                            bonus_points: [10, 15, 20][Math.floor(Math.random() * 3)],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '获奖统计':
+                case '学生获奖':
+                    for (let i = 1; i <= 3; i++) {
+                        const baseData = {
+                            id: `award_${i}`,
+                            award_name: `获奖项目${i}`,
+                            award_level: ['国家级', '省级', '市级'][Math.floor(Math.random() * 3)],
+                            award_time: `2022-0${Math.floor(Math.random() * 9) + 1}-01`,
+                            bonus_points: [30, 20, 10][Math.floor(Math.random() * 3)],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        };
+                        
+                        if (sheetKey === '学生获奖') {
+                            baseData.student_name = `学生${i}`;
+                            baseData.teacher_name = `指导教师${i}`;
+                        } else {
+                            baseData.award_person = `获奖人员${i}`;
+                        }
+                        
+                        sampleData.push(baseData);
+                    }
+                    break;
+                case '省级纵向教研':
+                    for (let i = 1; i <= 2; i++) {
+                        sampleData.push({
+                            id: `research_${i}`,
+                            project_name: `省级教研项目${i}`,
+                            leader_name: `项目负责人${i}`,
+                            start_time: `2022-0${Math.floor(Math.random() * 6) + 1}-01`,
+                            project_level: ['省级重点', '省级一般'][Math.floor(Math.random() * 2)],
+                            project_status: ['在研', '结题'][Math.floor(Math.random() * 2)],
+                            bonus_points: [25, 20][Math.floor(Math.random() * 2)],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '党建&学工课题':
+                    for (let i = 1; i <= 2; i++) {
+                        sampleData.push({
+                            id: `party_topic_${i}`,
+                            topic_name: `党建学工课题${i}`,
+                            leader_name: `课题负责人${i}`,
+                            topic_type: ['党建课题', '学工课题'][Math.floor(Math.random() * 2)],
+                            start_time: `2022-0${Math.floor(Math.random() * 6) + 1}-01`,
+                            completion_status: ['进行中', '已完成'][Math.floor(Math.random() * 2)],
+                            bonus_points: [10, 15][Math.floor(Math.random() * 2)],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '横向项目统计':
+                    for (let i = 1; i <= 2; i++) {
+                        sampleData.push({
+                            id: `horizontal_${i}`,
+                            project_name: `横向合作项目${i}`,
+                            leader_name: `项目负责人${i}`,
+                            partner_unit: `合作企业${i}`,
+                            project_amount: (Math.random() * 50 + 10).toFixed(1) + '万元',
+                            start_time: `2022-0${Math.floor(Math.random() * 9) + 1}-01`,
+                            bonus_points: [20, 30, 40][Math.floor(Math.random() * 3)],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '教师参会扣分情况':
+                    for (let i = 1; i <= 8; i++) {
+                        const required = Math.floor(Math.random() * 10) + 5;
+                        const actual = Math.floor(Math.random() * required);
+                        const absence = required - actual;
+                        sampleData.push({
+                            id: `attendance_${i}`,
+                            teacher_name: `教师${i}`,
+                            meeting_name: `会议${i}`,
+                            required_attendance: required,
+                            actual_attendance: actual,
+                            absence_count: absence,
+                            deduction: absence * 2,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '发表论文':
+                    for (let i = 1; i <= 6; i++) {
+                        sampleData.push({
+                            id: `paper_${i}`,
+                            paper_title: `学术论文${i}`,
+                            author_name: `作者${i}`,
+                            journal_name: `期刊${i}`,
+                            publish_time: `2022-0${Math.floor(Math.random() * 9) + 1}-01`,
+                            journal_level: ['SCI', 'EI', '核心期刊', '普通期刊'][Math.floor(Math.random() * 4)],
+                            bonus_points: [50, 30, 20, 10][Math.floor(Math.random() * 4)],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                case '讲座':
+                    for (let i = 1; i <= 8; i++) {
+                        sampleData.push({
+                            id: `lecture_${i}`,
+                            lecture_topic: `学术讲座${i}`,
+                            lecturer_name: `主讲人${i}`,
+                            lecture_type: ['学术讲座', '专题报告', '经验分享'][Math.floor(Math.random() * 3)],
+                            lecture_time: `2022-0${Math.floor(Math.random() * 9) + 1}-01`,
+                            attendance_count: Math.floor(Math.random() * 100) + 20,
+                            bonus_points: [5, 8, 10][Math.floor(Math.random() * 3)],
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    }
+                    break;
+                default:
+                    // 通用数据生成
+                    for (let i = 1; i <= Math.min(config.records, 10); i++) {
+                        const item = {
+                            id: `${sheetKey}_${i}`,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        };
+                        
+                        // 根据字段数生成基本字段
+                        if (config.fields >= 3) {
+                            item.name = `项目${i}`;
+                            item.description = `${config.name}的第${i}项内容`;
+                            item.value = Math.floor(Math.random() * 100);
+                        }
+                        
+                        sampleData.push(item);
+                    }
+            }
+            
+            return sampleData;
+        }
+
+        // 渲染编辑表格
+        function renderEditTable(sheetKey) {
+            const config = sheetsConfig[sheetKey];
+            const data = currentEditData[sheetKey] || [];
+            const container = document.getElementById('edit-table-container');
+
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-data">
+                        <i class="fas fa-database"></i>
+                        <h3>暂无数据</h3>
+                        <p>点击"添加数据"按钮开始录入${config.name}数据</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // 生成表格头部
+            const headers = getTableHeaders(sheetKey);
+            const tableHtml = `
+                <table class="edit-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">序号</th>
+                            ${headers.map(header => `<th>${header}</th>`).join('')}
+                            <th style="width: 150px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.map((row, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                ${headers.map(header => {
+                                    // 直接使用中文字段名作为键
+                                    const value = row[header] || '';
+                                    return `<td>${value}</td>`;
+                                }).join('')}
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-warning btn-sm" onclick="editRow('${row.id}')">
+                                            <i class="fas fa-edit"></i> 编辑
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteRow('${row.id}')">
+                                            <i class="fas fa-trash"></i> 删除
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHtml;
+        }
+
+        // 获取表格头部
+        function getTableHeaders(sheetKey) {
+            switch (sheetKey) {
+                case '学生评教':
+                    return ['教师姓名', '21学年第2学期评教分数', '22学年第1学期评教分数', '学校排名', '学院排名', '加分'];
+                case '调停课':
+                    return ['教师姓名', '专业课调停课次数', '英语课调停课次数', '总次数', '扣分', '备注'];
+                case '指导学生项目统计':
+                    return ['指导教师', '项目名称', '项目类型', '学生人数', '加分'];
+                case '管理人员服务对象打分':
+                    return ['管理人员', '服务对象', '评分总分', '评价人数', '平均分'];
+                case '校级项目统计':
+                    return ['项目名称', '负责人', '项目类型', '立项时间', '项目状态', '加分'];
+                case '获奖统计':
+                    return ['获奖名称', '获奖等级', '获奖人员', '获奖时间', '加分'];
+                case '学生获奖':
+                    return ['学生姓名', '获奖名称', '获奖等级', '指导教师', '获奖时间', '加分'];
+                case '省级纵向教研':
+                    return ['项目名称', '项目负责人', '立项时间', '项目级别', '项目状态', '加分'];
+                case '党建&学工课题':
+                    return ['课题名称', '课题负责人', '课题类型', '立项时间', '完成状态', '加分'];
+                case '横向项目统计':
+                    return ['项目名称', '项目负责人', '合作单位', '项目金额', '立项时间', '加分'];
+                case '教师参会扣分情况':
+                    return ['教师姓名', '会议名称', '应参加次数', '实际参加次数', '缺席次数', '扣分'];
+                case '发表论文':
+                    return ['论文标题', '作者姓名', '发表期刊', '发表时间', '期刊级别', '加分'];
+                case '讲座':
+                    return ['讲座主题', '主讲人', '讲座类型', '举办时间', '参加人数', '加分'];
+                default:
+                    return ['名称', '描述', '数值'];
+            }
+        }
+
+        // 获取字段键名
+        function getFieldKey(sheetKey, header) {
+            const headerMap = {
+                '学生评教': {
+                    '教师姓名': 'teacher_name',
+                    '21学年第2学期评教分数': 'semester1_score',
+                    '22学年第1学期评教分数': 'semester2_score',
+                    '学校排名': 'school_rank',
+                    '学院排名': 'college_rank',
+                    '加分': 'bonus_points'
+                },
+                '调停课': {
+                    '教师姓名': 'teacher_name',
+                    '专业课调停课次数': 'major_course_count',
+                    '英语课调停课次数': 'english_course_count',
+                    '总次数': 'total_count',
+                    '扣分': 'deduction',
+                    '备注': 'reason'
+                },
+                '指导学生项目统计': {
+                    '指导教师': 'teacher_name',
+                    '项目名称': 'project_name',
+                    '项目类型': 'project_type',
+                    '学生人数': 'student_count',
+                    '加分': 'bonus_points'
+                },
+                '管理人员服务对象打分': {
+                    '管理人员': 'manager_name',
+                    '服务对象': 'service_target',
+                    '评分总分': 'total_score',
+                    '评价人数': 'evaluation_count',
+                    '平均分': 'average_score'
+                },
+                '校级项目统计': {
+                    '项目名称': 'project_name',
+                    '负责人': 'leader_name',
+                    '项目类型': 'project_type',
+                    '立项时间': 'start_time',
+                    '项目状态': 'project_status',
+                    '加分': 'bonus_points'
+                },
+                '获奖统计': {
+                    '获奖名称': 'award_name',
+                    '获奖等级': 'award_level',
+                    '获奖人员': 'award_person',
+                    '获奖时间': 'award_time',
+                    '加分': 'bonus_points'
+                },
+                '学生获奖': {
+                    '学生姓名': 'student_name',
+                    '获奖名称': 'award_name',
+                    '获奖等级': 'award_level',
+                    '指导教师': 'teacher_name',
+                    '获奖时间': 'award_time',
+                    '加分': 'bonus_points'
+                },
+                '省级纵向教研': {
+                    '项目名称': 'project_name',
+                    '项目负责人': 'leader_name',
+                    '立项时间': 'start_time',
+                    '项目级别': 'project_level',
+                    '项目状态': 'project_status',
+                    '加分': 'bonus_points'
+                },
+                '党建&学工课题': {
+                    '课题名称': 'topic_name',
+                    '课题负责人': 'leader_name',
+                    '课题类型': 'topic_type',
+                    '立项时间': 'start_time',
+                    '完成状态': 'completion_status',
+                    '加分': 'bonus_points'
+                },
+                '横向项目统计': {
+                    '项目名称': 'project_name',
+                    '项目负责人': 'leader_name',
+                    '合作单位': 'partner_unit',
+                    '项目金额': 'project_amount',
+                    '立项时间': 'start_time',
+                    '加分': 'bonus_points'
+                },
+                '教师参会扣分情况': {
+                    '教师姓名': 'teacher_name',
+                    '会议名称': 'meeting_name',
+                    '应参加次数': 'required_attendance',
+                    '实际参加次数': 'actual_attendance',
+                    '缺席次数': 'absence_count',
+                    '扣分': 'deduction'
+                },
+                '发表论文': {
+                    '论文标题': 'paper_title',
+                    '作者姓名': 'author_name',
+                    '发表期刊': 'journal_name',
+                    '发表时间': 'publish_time',
+                    '期刊级别': 'journal_level',
+                    '加分': 'bonus_points'
+                },
+                '讲座': {
+                    '讲座主题': 'lecture_topic',
+                    '主讲人': 'lecturer_name',
+                    '讲座类型': 'lecture_type',
+                    '举办时间': 'lecture_time',
+                    '参加人数': 'attendance_count',
+                    '加分': 'bonus_points'
+                }
+            };
+            
+            return headerMap[sheetKey]?.[header] || header.toLowerCase().replace(/[^\w]/g, '_');
+        }
+
+        // 显示添加表单
+        function showAddForm() {
+            currentEditingId = null;
+            showFormModal('添加数据');
+        }
+
+        // 编辑行
+        function editRow(id) {
+            currentEditingId = id;
+            showFormModal('编辑数据');
+        }
+
+        // 删除行
+        async function deleteRow(id) {
+            if (confirm('确定要删除这条记录吗？')) {
+                try {
+                    if (useSupabase && window.dbAPI) {
+                        // 使用Supabase删除
+                        await window.dbAPI.delete(currentEditSheet, id);
+                        showMessage('数据删除成功', 'success');
+                        
+                        // 重新加载数据
+                        await loadEditData(currentEditSheet);
+                    } else {
+                        // 本地数据删除
+                        const data = currentEditData[currentEditSheet];
+                        const index = data.findIndex(item => item.id === id);
+                        if (index !== -1) {
+                            data.splice(index, 1);
+                            showMessage('数据删除成功', 'success');
+                        }
+                    }
+                    
+                    renderEditTable(currentEditSheet);
+                } catch (error) {
+                    console.error('删除数据失败:', error);
+                    showMessage('删除数据失败: ' + error.message, 'error');
+                }
+            }
+        }
+
+        // 显示表单模态框
+        function showFormModal(title) {
+            document.getElementById('form-modal-title').textContent = title;
+            generateFormFields();
+            document.getElementById('form-modal').classList.add('active');
+        }
+
+        // 关闭表单模态框
+        function closeFormModal() {
+            document.getElementById('form-modal').classList.remove('active');
+            currentEditingId = null;
+        }
+
+        // 生成表单字段
+        function generateFormFields() {
+            const container = document.getElementById('form-fields');
+            const headers = getTableHeaders(currentEditSheet);
+            
+            const fieldsHtml = headers.map(header => {
+                const key = getFieldKey(currentEditSheet, header);
+                let value = '';
+                
+                if (currentEditingId) {
+                    const data = currentEditData[currentEditSheet];
+                    const item = data.find(d => d.id === currentEditingId);
+                    // 直接使用中文字段名获取值
+                    value = item ? (item[header] || '') : '';
+                }
+                
+                return `
+                    <div class="form-group">
+                        <label class="form-label">${header}:</label>
+                        <input type="text" class="form-control" id="field_${key}" value="${value}" required>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = fieldsHtml;
+        }
+
+        // 保存表单数据
+        async function saveFormData() {
+            const form = document.getElementById('data-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const saveBtn = document.getElementById('save-text');
+            const loadingSpinner = document.getElementById('save-loading');
+            
+            saveBtn.style.display = 'none';
+            loadingSpinner.style.display = 'inline-block';
+
+            try {
+                const headers = getTableHeaders(currentEditSheet);
+                const formData = {};
+
+                // 收集表单数据
+                headers.forEach(header => {
+                    const key = getFieldKey(currentEditSheet, header);
+                    const element = document.getElementById(`field_${key}`);
+                    if (element) {
+                        formData[header] = element.value; // 使用中文字段名
+                    }
+                });
+
+                // 自动计算功能
+                if (currentEditSheet === '调停课') {
+                    const major = parseInt(formData['专业课调停课次数']) || 0;
+                    const english = parseInt(formData['英语课调停课次数']) || 0;
+                    formData['总次数'] = major + english;
+                    formData['扣分'] = (major + english) * 0.5;
+                }
+
+                if (useSupabase && window.dbAPI) {
+                    // 使用Supabase保存
+                    if (currentEditingId) {
+                        // 更新模式
+                        await window.dbAPI.update(currentEditSheet, currentEditingId, formData);
+                        showMessage('数据更新成功', 'success');
+                    } else {
+                        // 添加模式
+                        await window.dbAPI.create(currentEditSheet, formData);
+                        showMessage('数据添加成功', 'success');
+                    }
+                } else {
+                    // 使用本地数据
+                    if (currentEditingId) {
+                        // 编辑模式
+                        const data = currentEditData[currentEditSheet];
+                        const index = data.findIndex(item => item.id === currentEditingId);
+                        if (index !== -1) {
+                            data[index] = { ...data[index], ...formData };
+                        }
+                        showMessage('数据更新成功', 'success');
+                    } else {
+                        // 添加模式
+                        formData.id = `${currentEditSheet}_${Date.now()}`;
+                        if (!currentEditData[currentEditSheet]) {
+                            currentEditData[currentEditSheet] = [];
+                        }
+                        currentEditData[currentEditSheet].push(formData);
+                        showMessage('数据添加成功', 'success');
+                    }
+                }
+
+                // 重新加载数据并刷新表格
+                await loadEditData(currentEditSheet);
+                renderEditTable(currentEditSheet);
+                closeFormModal();
+
+            } catch (error) {
+                console.error('保存数据失败:', error);
+                showMessage('保存数据失败: ' + error.message, 'error');
+            } finally {
+                saveBtn.style.display = 'inline';
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        // 刷新编辑数据
+        async function refreshEditData() {
+            try {
+                // 重新加载数据
+                await loadEditData(currentEditSheet);
+                renderEditTable(currentEditSheet);
+                showMessage('数据刷新成功', 'success');
+            } catch (error) {
+                console.error('刷新数据失败:', error);
+                showMessage('刷新数据失败: ' + error.message, 'error');
+            }
+        }
+
+        // 过滤编辑表格
+        function filterEditTable() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const table = document.querySelector('.edit-table');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        // 导出当前数据
+        function exportCurrentData() {
+            const config = sheetsConfig[currentEditSheet];
+            const data = currentEditData[currentEditSheet] || [];
+            
+            if (data.length === 0) {
+                showMessage('没有数据可导出', 'error');
+                return;
+            }
+
+            const headers = getTableHeaders(currentEditSheet);
+            const csvContent = [
+                headers.join(','),
+                ...data.map(row => 
+                    headers.map(header => {
+                        const key = getFieldKey(currentEditSheet, header);
+                        return `"${row[key] || ''}"`;
+                    }).join(',')
+                )
+            ].join('\n');
+
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${config.name}_编辑数据.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            showMessage(`${config.name} 数据导出成功`, 'success');
+        }
+
         // 显示消息提示
         function showMessage(text, type = 'success') {
             const message = document.createElement('div');
@@ -861,9 +1831,21 @@
                 if (e.target === this) closeModal();
             });
             
+            document.getElementById('edit-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeEditModal();
+            });
+            
+            document.getElementById('form-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeFormModal();
+            });
+            
             // ESC键关闭模态框
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeModal();
+                if (e.key === 'Escape') {
+                    closeModal();
+                    closeEditModal();
+                    closeFormModal();
+                }
             });
             
             showMessage('系统初始化完成，发现15个工作表', 'success');

@@ -68,28 +68,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            text-decoration: none;
-        }
-        
-        .nav-item:hover, .nav-item.active {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .nav-item {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 12px 20px;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
         
         .nav-item:hover, .nav-item.active {
@@ -605,28 +583,7 @@
 
         <!-- 导航菜单 -->
         <div class="nav-menu" id="nav-menu">
-            // 渲染导航菜单
-            function renderNavMenu() {
-                const navMenu = document.getElementById('nav-menu');
-                navMenu.innerHTML = '';
-                
-                // 添加返回主页面的链接
-                const homeLink = document.createElement('a');
-                homeLink.href = 'index.html';
-                homeLink.className = 'nav-item';
-                homeLink.innerHTML = '<i class="fas fa-home"></i> 返回主页面';
-                navMenu.appendChild(homeLink);
-                
-                // 添加工作表导航项
-                Object.keys(sheetsConfig).forEach(sheetKey => {
-                    const config = sheetsConfig[sheetKey];
-                    const navItem = document.createElement('div');
-                    navItem.className = 'nav-item';
-                    navItem.innerHTML = `<i class="${config.icon}"></i> ${config.name}`;
-                    navItem.onclick = () => showSheet(sheetKey);
-                    navMenu.appendChild(navItem);
-                });
-            }
+            <!-- 导航项将在这里动态生成 -->
         </div>
 
         <!-- 主要内容区域 -->
@@ -836,24 +793,13 @@
         // 渲染导航菜单
         function renderNavMenu() {
             const navMenu = document.getElementById('nav-menu');
-            navMenu.innerHTML = '';
-            
-            // 添加返回主页面的链接
-            const homeLink = document.createElement('a');
-            homeLink.href = 'index.html';
-            homeLink.className = 'nav-item';
-            homeLink.innerHTML = '<i class="fas fa-home"></i> 返回主页面';
-            navMenu.appendChild(homeLink);
-            
-            // 添加工作表导航项
-            Object.keys(sheetsConfig).forEach(sheetKey => {
-                const config = sheetsConfig[sheetKey];
-                const navItem = document.createElement('div');
-                navItem.className = 'nav-item';
-                navItem.innerHTML = `<i class="${config.icon}"></i> ${config.name}`;
-                navItem.onclick = () => showSheet(sheetKey);
-                navMenu.appendChild(navItem);
-            });
+            navMenu.innerHTML = Object.entries(sheetsConfig).map(([key, config]) => `
+                <div class="nav-item" onclick="showSheet('${key}')" data-sheet="${key}">
+                    <i class="${config.icon}"></i>
+                    ${config.name}
+                    <span class="badge">${sheetsData[key]?.length || 0}</span>
+                </div>
+            `).join('');
         }
 
         // 显示工作表
