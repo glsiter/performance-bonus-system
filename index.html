@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>年终考核加分管理系统</title>
+    <title>年终考核加分管理系统 - 统一入口</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
     
     <!-- Element Plus CSS -->
@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
@@ -21,232 +20,128 @@
         
         body {
             font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             color: #303133;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
         }
         
-        /* 顶部导航栏 */
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
             color: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
         }
         
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 24px;
-            font-weight: bold;
+        .header p {
+            font-size: 20px;
+            opacity: 0.9;
         }
         
-        .logo i {
-            margin-right: 10px;
-            font-size: 28px;
-        }
-        
-        .nav-menu {
-            display: flex;
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
+            margin-bottom: 40px;
         }
         
-        .nav-item {
-            cursor: pointer;
-            padding: 10px 20px;
-            border-radius: 25px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-item:hover, .nav-item.active {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-        
-        /* 主要内容区域 */
-        .main-content {
-            padding: 30px 0;
-            min-height: calc(100vh - 160px);
-        }
-        
-        .page-section {
-            display: none;
-        }
-        
-        .page-section.active {
-            display: block;
-        }
-        
-        /* 卡片样式 */
-        .card {
+        .system-card {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
             overflow: hidden;
         }
         
-        .card-header {
-            padding: 20px 30px;
-            border-bottom: 1px solid #ebeef5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .system-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
         
-        .card-title {
-            font-size: 18px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .system-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
         }
         
-        .card-body {
-            padding: 30px;
-        }
-        
-        /* 统计卡片 */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-icon {
-            width: 60px;
-            height: 60px;
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 36px;
+            color: white;
+        }
+        
+        .card-title {
             font-size: 24px;
-            margin-right: 20px;
-        }
-        
-        .stat-icon.teachers {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .stat-icon.projects {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-        
-        .stat-icon.scores {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-        }
-        
-        .stat-content h3 {
-            font-size: 28px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
+            color: #303133;
         }
         
-        .stat-content p {
-            color: #909399;
-            font-size: 14px;
+        .card-description {
+            color: #606266;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
         
-        /* 搜索和操作栏 */
-        .toolbar {
+        .feature-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            color: #606266;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
+        }
+        
+        .feature-list li i {
+            color: #67c23a;
+            margin-right: 10px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
             flex-wrap: wrap;
         }
         
-        .search-group {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .search-input {
-            position: relative;
-            min-width: 250px;
-        }
-        
-        .search-input input {
-            width: 100%;
-            padding: 12px 45px 12px 15px;
-            border: 1px solid #dcdfe6;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-        
-        .search-input input:focus {
-            outline: none;
-            border-color: #409eff;
-        }
-        
-        .search-input i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #909399;
-        }
-        
-        .select-filter {
-            min-width: 150px;
-        }
-        
-        .select-filter select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #dcdfe6;
-            border-radius: 8px;
-            font-size: 14px;
-            background: white;
-        }
-        
-        /* 按钮样式 */
         .btn {
-            padding: 12px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
-            font-size: 14px;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s;
-            text-decoration: none;
+            transition: all 0.3s ease;
         }
         
         .btn-primary {
@@ -256,6 +151,7 @@
         
         .btn-primary:hover {
             background: #337ecc;
+            transform: translateY(-2px);
         }
         
         .btn-success {
@@ -265,15 +161,7 @@
         
         .btn-success:hover {
             background: #529b2e;
-        }
-        
-        .btn-danger {
-            background: #f56c6c;
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background: #dd6161;
+            transform: translateY(-2px);
         }
         
         .btn-warning {
@@ -281,1253 +169,299 @@
             color: white;
         }
         
-        .btn-small {
-            padding: 8px 15px;
-            font-size: 12px;
+        .btn-warning:hover {
+            background: #c3832b;
+            transform: translateY(-2px);
         }
         
-        /* 表格样式 */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
+        .btn-info {
+            background: #909399;
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: #73767a;
+            transform: translateY(-2px);
+        }
+        
+        .quick-access {
             background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-        }
-        
-        .data-table th,
-        .data-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ebeef5;
-        }
-        
-        .data-table th {
-            background: #fafafa;
-            font-weight: 600;
-            color: #606266;
-            font-size: 14px;
-        }
-        
-        .data-table td {
-            font-size: 14px;
-        }
-        
-        .data-table tbody tr:hover {
-            background: #f5f7fa;
-        }
-        
-        .text-center {
-            text-align: center !important;
-        }
-        
-        /* 标签样式 */
-        .tag {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .tag-success {
-            background: #f0f9ff;
-            color: #67c23a;
-            border: 1px solid #b3e5fc;
-        }
-        
-        .tag-warning {
-            background: #fdf6ec;
-            color: #e6a23c;
-            border: 1px solid #f5e6a3;
-        }
-        
-        .tag-danger {
-            background: #fef0f0;
-            color: #f56c6c;
-            border: 1px solid #fbc4c4;
-        }
-        
-        .tag-info {
-            background: #f4f4f5;
-            color: #909399;
-            border: 1px solid #d3d4d6;
-        }
-        
-        /* 模态框样式 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            padding: 0;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            padding: 20px 30px;
-            border-bottom: 1px solid #ebeef5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .modal-body {
+            border-radius: 20px;
             padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
         }
         
-        .modal-footer {
-            padding: 20px 30px;
-            border-top: 1px solid #ebeef5;
-            display: flex;
-            justify-content: flex-end;
+        .quick-access h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #303133;
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
         }
         
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            color: #909399;
+        .quick-link {
+            padding: 15px;
+            background: #f5f7fa;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #606266;
+            transition: all 0.3s ease;
         }
         
-        /* 表单样式 */
-        .form-group {
-            margin-bottom: 20px;
+        .quick-link:hover {
+            background: #e6e8eb;
+            transform: translateY(-2px);
         }
         
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+        .status-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .status-item {
+            display: inline-block;
+            margin: 0 20px;
+            padding: 10px 20px;
+            background: #f5f7fa;
+            border-radius: 20px;
             color: #606266;
         }
         
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #dcdfe6;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+        .status-item.success {
+            background: #f0f9ff;
+            color: #67c23a;
         }
         
-        .form-control:focus {
-            outline: none;
-            border-color: #409eff;
-        }
-        
-        /* 响应式设计 */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 10px;
+            .header h1 {
+                font-size: 36px;
             }
             
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-menu {
-                gap: 15px;
-            }
-            
-            .nav-item {
-                padding: 8px 15px;
-                font-size: 14px;
-            }
-            
-            .stats-grid {
+            .system-grid {
                 grid-template-columns: 1fr;
             }
             
-            .toolbar {
+            .btn-group {
                 flex-direction: column;
-                align-items: stretch;
             }
             
-            .search-group {
-                flex-wrap: wrap;
+            .quick-links {
+                grid-template-columns: 1fr;
             }
-            
-            .search-input {
-                min-width: 200px;
-            }
-            
-            .data-table {
-                font-size: 12px;
-            }
-            
-            .data-table th,
-            .data-table td {
-                padding: 10px 8px;
-            }
-        }
-        
-        /* 加载动画 */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* 空状态 */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #909399;
-        }
-        
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: 20px;
-            display: block;
-        }
-        
-        .empty-state h3 {
-            margin-bottom: 10px;
-            color: #606266;
-        }
-        
-        /* 消息提示 */
-        .message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 8px;
-            color: white;
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateX(100%);
-            transition: transform 0.3s;
-        }
-        
-        .message.show {
-            transform: translateX(0);
-        }
-        
-        .message.success {
-            background: #67c23a;
-        }
-        
-        .message.error {
-            background: #f56c6c;
-        }
-        
-        .message.warning {
-            background: #e6a23c;
-        }
-        
-        .message.info {
-            background: #409eff;
         }
     </style>
 </head>
 <body>
-    <!-- 顶部导航栏 -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-trophy"></i>
-                    年终考核加分管理系统
-                </div>
-                <nav class="nav-menu">
-                    <div class="nav-item active" onclick="showPage('home')">
-                        <i class="fas fa-home"></i>
-                        首页
-                    </div>
-                    <div class="nav-item" onclick="showPage('teachers')">
-                        <i class="fas fa-users"></i>
-                        教师评教
-                    </div>
-                    <div class="nav-item" onclick="showPage('projects')">
-                        <i class="fas fa-project-diagram"></i>
-                        学生项目
-                    </div>
-                </nav>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-trophy"></i> 年终考核加分管理系统</h1>
+            <p>统一入口 - 一站式管理所有考核相关功能</p>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-item success">
+                <i class="fas fa-check-circle"></i> 系统已部署
+            </div>
+            <div class="status-item">
+                <i class="fas fa-globe"></i> Vercel托管
+            </div>
+            <div class="status-item">
+                <i class="fas fa-database"></i> 数据已同步
+            </div>
+            <div class="status-item success">
+                <i class="fas fa-shield-alt"></i> 安全连接
             </div>
         </div>
-    </header>
-
-    <!-- 主要内容区域 -->
-    <main class="main-content">
-        <div class="container">
-            <!-- 首页 -->
-            <div id="home" class="page-section active">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-chart-bar"></i>
-                            系统概览
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-icon teachers">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <h3 id="teacher-count">107</h3>
-                                    <p>教师总数</p>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon projects">
-                                    <i class="fas fa-project-diagram"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <h3 id="project-count">0</h3>
-                                    <p>项目总数</p>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon scores">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <h3 id="avg-score">94.8</h3>
-                                    <p>平均评教分</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        <i class="fas fa-users"></i>
-                                        教师评教管理
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <p style="margin-bottom: 20px; color: #606266;">管理107位教师的评教数据和排名信息</p>
-                                    <ul style="margin-bottom: 25px; padding-left: 20px; color: #606266;">
-                                        <li>查看评教分数和排名</li>
-                                        <li>编辑教师信息</li>
-                                        <li>导出数据报告</li>
-                                    </ul>
-                                    <button class="btn btn-primary" onclick="showPage('teachers')">
-                                        <i class="fas fa-arrow-right"></i>
-                                        进入管理
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        <i class="fas fa-project-diagram"></i>
-                                        学生项目管理
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <p style="margin-bottom: 20px; color: #606266;">管理学科竞赛和大创项目信息</p>
-                                    <ul style="margin-bottom: 25px; padding-left: 20px; color: #606266;">
-                                        <li>项目类型分类管理</li>
-                                        <li>指导教师信息</li>
-                                        <li>项目进度跟踪</li>
-                                    </ul>
-                                    <button class="btn btn-success" onclick="showPage('projects')">
-                                        <i class="fas fa-arrow-right"></i>
-                                        进入管理
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        
+        <div class="system-grid">
+            <!-- 简化版系统 -->
+            <div class="system-card">
+                <div class="card-icon">
+                    <i class="fas fa-table"></i>
+                </div>
+                <h3 class="card-title">简化版管理系统</h3>
+                <p class="card-description">基础的数据查看和管理功能，适合快速浏览和操作。</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> 教师信息查看</li>
+                    <li><i class="fas fa-check"></i> 项目数据统计</li>
+                    <li><i class="fas fa-check"></i> 基础搜索功能</li>
+                    <li><i class="fas fa-check"></i> 数据导出支持</li>
+                </ul>
+                <div class="btn-group">
+                    <a href="/simple" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> 进入简化版
+                    </a>
                 </div>
             </div>
-
-            <!-- 教师评教页面 -->
-            <div id="teachers" class="page-section">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-users"></i>
-                            教师评教管理
-                        </div>
-                        <div>
-                            <button class="btn btn-primary" onclick="openTeacherModal()">
-                                <i class="fas fa-plus"></i>
-                                添加教师
-                            </button>
-                            <button class="btn btn-success" onclick="refreshTeachers()">
-                                <i class="fas fa-sync-alt"></i>
-                                刷新数据
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="toolbar">
-                            <div class="search-group">
-                                <div class="search-input">
-                                    <input type="text" id="teacher-search" placeholder="搜索教师姓名" oninput="filterTeachers()">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="select-filter">
-                                    <select id="rank-filter" onchange="filterTeachers()">
-                                        <option value="">全部排名</option>
-                                        <option value="top10">前10名</option>
-                                        <option value="top20">前20名</option>
-                                        <option value="top50">前50名</option>
-                                    </select>
-                                </div>
-                                <div class="select-filter">
-                                    <select id="score-filter" onchange="filterTeachers()">
-                                        <option value="">全部分数</option>
-                                        <option value="95">95分</option>
-                                        <option value="90-94">90-94分</option>
-                                        <option value="under90">90分以下</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-warning" onclick="exportTeachers()">
-                                    <i class="fas fa-download"></i>
-                                    导出数据
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div id="teachers-table-container">
-                            <!-- 教师数据表格将在这里动态生成 -->
-                        </div>
-                    </div>
+            
+            <!-- 完整版系统 -->
+            <div class="system-card">
+                <div class="card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="card-title">完整版查看系统</h3>
+                <p class="card-description">全面的数据分析和可视化系统，包含详细的统计图表和报告。</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> 15个Excel表格数据</li>
+                    <li><i class="fas fa-check"></i> 数据可视化图表</li>
+                    <li><i class="fas fa-check"></i> 统计分析报告</li>
+                    <li><i class="fas fa-check"></i> 趋势分析功能</li>
+                </ul>
+                <div class="btn-group">
+                    <a href="/complete" class="btn btn-success">
+                        <i class="fas fa-external-link-alt"></i> 查看完整版
+                    </a>
                 </div>
             </div>
-
-            <!-- 学生项目页面 -->
-            <div id="projects" class="page-section">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-project-diagram"></i>
-                            学生项目管理
-                        </div>
-                        <div>
-                            <button class="btn btn-primary" onclick="openProjectModal()">
-                                <i class="fas fa-plus"></i>
-                                添加项目
-                            </button>
-                            <button class="btn btn-success" onclick="refreshProjects()">
-                                <i class="fas fa-sync-alt"></i>
-                                刷新数据
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="toolbar">
-                            <div class="search-group">
-                                <div class="search-input">
-                                    <input type="text" id="project-search" placeholder="搜索项目名或指导老师" oninput="filterProjects()">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="select-filter">
-                                    <select id="type-filter" onchange="filterProjects()">
-                                        <option value="">全部类型</option>
-                                        <option value="学科竞赛">学科竞赛</option>
-                                        <option value="大创">大创</option>
-                                    </select>
-                                </div>
-                                <div class="select-filter">
-                                    <select id="status-filter" onchange="filterProjects()">
-                                        <option value="">全部状态</option>
-                                        <option value="ongoing">进行中</option>
-                                        <option value="completed">已结项</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-warning" onclick="exportProjects()">
-                                    <i class="fas fa-download"></i>
-                                    导出数据
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div id="projects-table-container">
-                            <!-- 项目数据表格将在这里动态生成 -->
-                        </div>
-                    </div>
+            
+            <!-- 可编辑版系统 -->
+            <div class="system-card">
+                <div class="card-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h3 class="card-title">可编辑管理系统</h3>
+                <p class="card-description">功能强大的编辑系统，支持实时数据修改、添加、删除等操作。</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> 实时数据编辑</li>
+                    <li><i class="fas fa-check"></i> 数据验证功能</li>
+                    <li><i class="fas fa-check"></i> 批量操作支持</li>
+                    <li><i class="fas fa-check"></i> 操作历史记录</li>
+                </ul>
+                <div class="btn-group">
+                    <a href="/editable" class="btn btn-warning">
+                        <i class="fas fa-external-link-alt"></i> 进入编辑版
+                    </a>
                 </div>
             </div>
+            
+            <!-- 云端系统 -->
+            <div class="system-card">
+                <div class="card-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h3 class="card-title">云端数据库系统</h3>
+                <p class="card-description">基于Supabase的云端数据库系统，支持多用户协作和实时同步。</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> 云端数据存储</li>
+                    <li><i class="fas fa-check"></i> 实时数据同步</li>
+                    <li><i class="fas fa-check"></i> 多用户协作</li>
+                    <li><i class="fas fa-check"></i> 数据安全备份</li>
+                </ul>
+                <div class="btn-group">
+                    <a href="/cloud" class="btn btn-info">
+                        <i class="fas fa-external-link-alt"></i> 使用云端版
+                    </a>
+                    <a href="/supabase" class="btn btn-info">
+                        <i class="fas fa-database"></i> Supabase版
+                    </a>
+                </div>
+            </div>
+            <!-- 系统枢纽 -->
+            <a href="system-hub.html" class="system-card featured">
+                <div class="card-icon">
+                    <i class="fas fa-hub-spot"></i>
+                </div>
+                <div class="card-title">系统枢纽</div>
+                <div class="card-description">
+                    统一入口页面，整合所有系统功能，提供最佳的用户体验
+                </div>
+                <div class="card-status">
+                    <span class="status-badge active">推荐</span>
+                    <span class="status-text">Alt+H 快速访问</span>
+                </div>
+            </a>
         </div>
-    </main>
-
-    <!-- 教师信息模态框 -->
-    <div id="teacher-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="teacher-modal-title">添加教师信息</h3>
-                <button class="close-btn" onclick="closeTeacherModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="teacher-form">
-                    <div class="form-group">
-                        <label class="form-label">教师姓名 *</label>
-                        <input type="text" id="teacher-name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">21学年第2学期评教分数 *</label>
-                        <input type="number" id="semester1-score" class="form-control" step="0.1" min="0" max="100" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">22学年第1学期评教分数</label>
-                        <input type="number" id="semester2-score" class="form-control" step="0.1" min="0" max="100">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">学校排名 *</label>
-                        <input type="number" id="school-rank" class="form-control" min="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">学院排名 *</label>
-                        <input type="number" id="college-rank" class="form-control" min="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">加分 *</label>
-                        <input type="number" id="bonus-points" class="form-control" min="0" value="30" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" onclick="closeTeacherModal()">取消</button>
-                <button class="btn btn-primary" onclick="saveTeacher()">
-                    <span id="teacher-save-text">保存</span>
-                    <div id="teacher-loading" class="loading" style="display: none;"></div>
-                </button>
+        
+        <div class="quick-access">
+            <h2><i class="fas fa-rocket"></i> 快速访问</h2>
+            <div class="quick-links">
+                <a href="/deploy-status.html" class="quick-link">
+                    <i class="fas fa-chart-bar"></i><br>
+                    部署状态
+                </a>
+                <a href="/simple" class="quick-link">
+                    <i class="fas fa-table"></i><br>
+                    简化版
+                </a>
+                <a href="/complete" class="quick-link">
+                    <i class="fas fa-chart-line"></i><br>
+                    完整版
+                </a>
+                <a href="/editable" class="quick-link">
+                    <i class="fas fa-edit"></i><br>
+                    编辑版
+                </a>
+                <a href="/cloud" class="quick-link">
+                    <i class="fas fa-cloud"></i><br>
+                    云端版
+                </a>
+                <a href="/supabase" class="quick-link">
+                    <i class="fas fa-database"></i><br>
+                    数据库
+                </a>
             </div>
         </div>
     </div>
-
-    <!-- 项目信息模态框 -->
-    <div id="project-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="project-modal-title">添加项目信息</h3>
-                <button class="close-btn" onclick="closeProjectModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="project-form">
-                    <div class="form-group">
-                        <label class="form-label">项目类型 *</label>
-                        <select id="project-type" class="form-control" required>
-                            <option value="">请选择项目类型</option>
-                            <option value="学科竞赛">学科竞赛</option>
-                            <option value="大创">大创</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">项目名称 *</label>
-                        <input type="text" id="project-name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">项目负责人</label>
-                        <input type="text" id="project-leader" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">指导老师 *</label>
-                        <input type="text" id="project-supervisor" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">立项时间</label>
-                        <input type="date" id="start-date" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">结项时间</label>
-                        <input type="date" id="end-date" class="form-control">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" onclick="closeProjectModal()">取消</button>
-                <button class="btn btn-primary" onclick="saveProject()">
-                    <span id="project-save-text">保存</span>
-                    <div id="project-loading" class="loading" style="display: none;"></div>
-                </button>
-            </div>
-        </div>
-    </div>
-
+    
     <script>
-        // 全局变量
-        let currentPage = 'home';
-        let teachersData = [];
-        let projectsData = [];
-        let currentEditingTeacher = null;
-        let currentEditingProject = null;
-
-        // 页面切换
-        function showPage(page) {
-            // 更新导航状态
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            document.querySelector(`.nav-item[onclick="showPage('${page}')"]`).classList.add('active');
-            
-            // 显示对应页面
-            document.querySelectorAll('.page-section').forEach(section => section.classList.remove('active'));
-            document.getElementById(page).classList.add('active');
-            
-            currentPage = page;
-            
-            // 加载页面数据
-            if (page === 'teachers' && teachersData.length === 0) {
-                loadTeachersData();
-            } else if (page === 'projects' && projectsData.length === 0) {
-                loadProjectsData();
-            }
-        }
-
-        // 消息提示
-        function showMessage(text, type = 'info') {
-            const message = document.createElement('div');
-            message.className = `message ${type}`;
-            message.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : type === 'warning' ? 'exclamation' : 'info'}"></i>
-                ${text}
-            `;
-            
-            document.body.appendChild(message);
-            
-            setTimeout(() => {
-                message.classList.add('show');
-            }, 100);
-            
-            setTimeout(() => {
-                message.classList.remove('show');
-                setTimeout(() => {
-                    document.body.removeChild(message);
-                }, 300);
-            }, 3000);
-        }
-
-        // 初始化教师数据（使用分析结果中的真实数据）
-        function initializeTeachersData() {
-            teachersData = [
-                { id: 1, name: '刘玥', semester1: 95, semester2: null, schoolRank: 1, collegeRank: 1, bonus: 30 },
-                { id: 2, name: '许婷芳', semester1: 95, semester2: null, schoolRank: 1, collegeRank: 2, bonus: 30 },
-                { id: 3, name: '李群英', semester1: 95, semester2: null, schoolRank: 1, collegeRank: 3, bonus: 30 },
-                { id: 4, name: 'RUBEN CASTILLA SANCHEZ', semester1: 95, semester2: null, schoolRank: 1, collegeRank: 4, bonus: 30 },
-                { id: 5, name: '谢杭航', semester1: 95, semester2: null, schoolRank: 1, collegeRank: 5, bonus: 30 },
-                { id: 6, name: '彭立家', semester1: 95, semester2: null, schoolRank: 1, collegeRank: 6, bonus: 30 },
-                { id: 7, name: '彭万欣', semester1: 95, semester2: null, schoolRank: 1, collegeRank: 7, bonus: 30 },
-                { id: 8, name: '李国玉', semester1: 94.98, semester2: null, schoolRank: 108, collegeRank: 8, bonus: 30 }
-            ];
-            
-            // 更新统计数据
-            updateStats();
-        }
-
-        // 初始化项目数据
-        function initializeProjectsData() {
-            projectsData = [
-                {
-                    id: 1,
-                    type: '学科竞赛',
-                    name: '全国大学生英语竞赛',
-                    leader: '张同学',
-                    supervisor: '刘玥',
-                    startDate: '2022-03-01',
-                    endDate: '2022-06-30'
-                },
-                {
-                    id: 2,
-                    type: '学科竞赛',
-                    name: '外研社杯英语演讲比赛',
-                    leader: '李同学',
-                    supervisor: '许婷芳',
-                    startDate: '2022-04-01',
-                    endDate: '2022-07-15'
-                },
-                {
-                    id: 3,
-                    type: '大创',
-                    name: '基于AI的英语学习辅助系统',
-                    leader: '王同学',
-                    supervisor: '李群英',
-                    startDate: '2022-01-01',
-                    endDate: null
-                },
-                {
-                    id: 4,
-                    type: '学科竞赛',
-                    name: '全国口译大赛',
-                    leader: '赵同学',
-                    supervisor: 'RUBEN CASTILLA SANCHEZ',
-                    startDate: '2022-05-01',
-                    endDate: '2022-08-30'
-                },
-                {
-                    id: 5,
-                    type: '大创',
-                    name: '多语言文化交流平台',
-                    leader: '陈同学',
-                    supervisor: '谢杭航',
-                    startDate: '2022-02-01',
-                    endDate: null
-                }
-            ];
-            
-            updateStats();
-        }
-
-        // 更新统计数据
-        function updateStats() {
-            document.getElementById('teacher-count').textContent = teachersData.length;
-            document.getElementById('project-count').textContent = projectsData.length;
-            
-            if (teachersData.length > 0) {
-                const validScores = teachersData.filter(t => t.semester1).map(t => t.semester1);
-                const avgScore = validScores.reduce((sum, score) => sum + score, 0) / validScores.length;
-                document.getElementById('avg-score').textContent = avgScore.toFixed(1);
-            }
-        }
-
-        // 教师数据管理
-        function loadTeachersData() {
-            renderTeachersTable(teachersData);
-        }
-
-        function renderTeachersTable(data) {
-            const container = document.getElementById('teachers-table-container');
-            
-            if (data.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-users"></i>
-                        <h3>暂无教师数据</h3>
-                        <p>点击上方"添加教师"按钮开始添加教师信息</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const table = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th class="text-center">序号</th>
-                            <th class="text-center">教师姓名</th>
-                            <th class="text-center">21学年第2学期评教分数</th>
-                            <th class="text-center">22学年第1学期评教分数</th>
-                            <th class="text-center">学校排名</th>
-                            <th class="text-center">学院排名</th>
-                            <th class="text-center">加分</th>
-                            <th class="text-center">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.map((teacher, index) => `
-                            <tr>
-                                <td class="text-center">${index + 1}</td>
-                                <td class="text-center">${teacher.name}</td>
-                                <td class="text-center">
-                                    <span class="tag ${getScoreTag(teacher.semester1)}">${teacher.semester1 || '-'}</span>
-                                </td>
-                                <td class="text-center">${teacher.semester2 || '-'}</td>
-                                <td class="text-center">
-                                    <span class="tag ${getRankTag(teacher.schoolRank)}">${teacher.schoolRank}</span>
-                                </td>
-                                <td class="text-center">
-                                    <span class="tag ${getRankTag(teacher.collegeRank)}">${teacher.collegeRank}</span>
-                                </td>
-                                <td class="text-center">
-                                    <span class="tag tag-success">${teacher.bonus}</span>
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-small btn-primary" onclick="editTeacher(${teacher.id})">
-                                        <i class="fas fa-edit"></i> 编辑
-                                    </button>
-                                    <button class="btn btn-small btn-danger" onclick="deleteTeacher(${teacher.id})">
-                                        <i class="fas fa-trash"></i> 删除
-                                    </button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-            container.innerHTML = table;
-        }
-
-        function getScoreTag(score) {
-            if (!score) return 'tag-info';
-            if (score >= 95) return 'tag-success';
-            if (score >= 90) return 'tag-warning';
-            return 'tag-danger';
-        }
-
-        function getRankTag(rank) {
-            if (rank <= 10) return 'tag-success';
-            if (rank <= 50) return 'tag-warning';
-            return 'tag-info';
-        }
-
-        function filterTeachers() {
-            const searchTerm = document.getElementById('teacher-search').value.toLowerCase();
-            const rankFilter = document.getElementById('rank-filter').value;
-            const scoreFilter = document.getElementById('score-filter').value;
-            
-            let filtered = teachersData.filter(teacher => {
-                // 名称搜索
-                if (searchTerm && !teacher.name.toLowerCase().includes(searchTerm)) {
-                    return false;
-                }
-                
-                // 排名筛选
-                if (rankFilter) {
-                    switch (rankFilter) {
-                        case 'top10':
-                            if (teacher.collegeRank > 10) return false;
-                            break;
-                        case 'top20':
-                            if (teacher.collegeRank > 20) return false;
-                            break;
-                        case 'top50':
-                            if (teacher.collegeRank > 50) return false;
-                            break;
-                    }
-                }
-                
-                // 分数筛选
-                if (scoreFilter && teacher.semester1) {
-                    switch (scoreFilter) {
-                        case '95':
-                            if (teacher.semester1 < 95) return false;
-                            break;
-                        case '90-94':
-                            if (teacher.semester1 < 90 || teacher.semester1 >= 95) return false;
-                            break;
-                        case 'under90':
-                            if (teacher.semester1 >= 90) return false;
-                            break;
-                    }
-                }
-                
-                return true;
-            });
-            
-            renderTeachersTable(filtered);
-        }
-
-        // 教师模态框管理
-        function openTeacherModal(teacherId = null) {
-            currentEditingTeacher = teacherId;
-            const modal = document.getElementById('teacher-modal');
-            const title = document.getElementById('teacher-modal-title');
-            
-            if (teacherId) {
-                title.textContent = '编辑教师信息';
-                const teacher = teachersData.find(t => t.id === teacherId);
-                if (teacher) {
-                    document.getElementById('teacher-name').value = teacher.name;
-                    document.getElementById('semester1-score').value = teacher.semester1 || '';
-                    document.getElementById('semester2-score').value = teacher.semester2 || '';
-                    document.getElementById('school-rank').value = teacher.schoolRank;
-                    document.getElementById('college-rank').value = teacher.collegeRank;
-                    document.getElementById('bonus-points').value = teacher.bonus;
-                }
-            } else {
-                title.textContent = '添加教师信息';
-                document.getElementById('teacher-form').reset();
-                document.getElementById('bonus-points').value = 30;
-            }
-            
-            modal.classList.add('active');
-        }
-
-        function closeTeacherModal() {
-            document.getElementById('teacher-modal').classList.remove('active');
-            currentEditingTeacher = null;
-        }
-
-        function editTeacher(teacherId) {
-            openTeacherModal(teacherId);
-        }
-
-        function deleteTeacher(teacherId) {
-            if (confirm('确定要删除这位教师的信息吗？')) {
-                teachersData = teachersData.filter(t => t.id !== teacherId);
-                renderTeachersTable(teachersData);
-                updateStats();
-                showMessage('教师信息删除成功', 'success');
-            }
-        }
-
-        function saveTeacher() {
-            const form = document.getElementById('teacher-form');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-            
-            const loadingEl = document.getElementById('teacher-loading');
-            const textEl = document.getElementById('teacher-save-text');
-            
-            loadingEl.style.display = 'inline-block';
-            textEl.style.display = 'none';
-            
-            setTimeout(() => {
-                const teacherData = {
-                    name: document.getElementById('teacher-name').value,
-                    semester1: parseFloat(document.getElementById('semester1-score').value) || null,
-                    semester2: parseFloat(document.getElementById('semester2-score').value) || null,
-                    schoolRank: parseInt(document.getElementById('school-rank').value),
-                    collegeRank: parseInt(document.getElementById('college-rank').value),
-                    bonus: parseInt(document.getElementById('bonus-points').value)
-                };
-                
-                if (currentEditingTeacher) {
-                    // 编辑现有教师
-                    const index = teachersData.findIndex(t => t.id === currentEditingTeacher);
-                    if (index !== -1) {
-                        teachersData[index] = { ...teachersData[index], ...teacherData };
-                        showMessage('教师信息更新成功', 'success');
-                    }
-                } else {
-                    // 添加新教师
-                    const newId = Math.max(...teachersData.map(t => t.id), 0) + 1;
-                    teachersData.push({ id: newId, ...teacherData });
-                    showMessage('教师信息添加成功', 'success');
-                }
-                
-                renderTeachersTable(teachersData);
-                updateStats();
-                closeTeacherModal();
-                
-                loadingEl.style.display = 'none';
-                textEl.style.display = 'inline';
-            }, 1000);
-        }
-
-        function refreshTeachers() {
-            loadTeachersData();
-            showMessage('教师数据已刷新', 'success');
-        }
-
-        function exportTeachers() {
-            const csv = generateTeachersCSV(teachersData);
-            downloadCSV(csv, '教师评教数据.csv');
-            showMessage('数据导出成功', 'success');
-        }
-
-        // 项目数据管理
-        function loadProjectsData() {
-            renderProjectsTable(projectsData);
-        }
-
-        function renderProjectsTable(data) {
-            const container = document.getElementById('projects-table-container');
-            
-            if (data.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-project-diagram"></i>
-                        <h3>暂无项目数据</h3>
-                        <p>点击上方"添加项目"按钮开始添加项目信息</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const table = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th class="text-center">序号</th>
-                            <th class="text-center">项目类型</th>
-                            <th>项目名称</th>
-                            <th class="text-center">项目负责人</th>
-                            <th class="text-center">指导老师</th>
-                            <th class="text-center">立项时间</th>
-                            <th class="text-center">结项时间</th>
-                            <th class="text-center">状态</th>
-                            <th class="text-center">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.map((project, index) => `
-                            <tr>
-                                <td class="text-center">${index + 1}</td>
-                                <td class="text-center">
-                                    <span class="tag ${project.type === '学科竞赛' ? 'tag-success' : 'tag-info'}">${project.type}</span>
-                                </td>
-                                <td>${project.name}</td>
-                                <td class="text-center">${project.leader || '-'}</td>
-                                <td class="text-center">
-                                    <span class="tag tag-warning">${project.supervisor}</span>
-                                </td>
-                                <td class="text-center">${formatDate(project.startDate)}</td>
-                                <td class="text-center">${formatDate(project.endDate)}</td>
-                                <td class="text-center">
-                                    <span class="tag ${project.endDate ? 'tag-success' : 'tag-info'}">
-                                        ${project.endDate ? '已结项' : '进行中'}
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    <button class="btn btn-small btn-primary" onclick="editProject(${project.id})">
-                                        <i class="fas fa-edit"></i> 编辑
-                                    </button>
-                                    <button class="btn btn-small btn-danger" onclick="deleteProject(${project.id})">
-                                        <i class="fas fa-trash"></i> 删除
-                                    </button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-            container.innerHTML = table;
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return '-';
-            return new Date(dateString).toLocaleDateString('zh-CN');
-        }
-
-        function filterProjects() {
-            const searchTerm = document.getElementById('project-search').value.toLowerCase();
-            const typeFilter = document.getElementById('type-filter').value;
-            const statusFilter = document.getElementById('status-filter').value;
-            
-            let filtered = projectsData.filter(project => {
-                // 搜索过滤
-                if (searchTerm) {
-                    const searchFields = [project.name, project.supervisor, project.leader].filter(Boolean);
-                    if (!searchFields.some(field => field.toLowerCase().includes(searchTerm))) {
-                        return false;
-                    }
-                }
-                
-                // 类型过滤
-                if (typeFilter && project.type !== typeFilter) {
-                    return false;
-                }
-                
-                // 状态过滤
-                if (statusFilter) {
-                    const isCompleted = !!project.endDate;
-                    if (statusFilter === 'completed' && !isCompleted) return false;
-                    if (statusFilter === 'ongoing' && isCompleted) return false;
-                }
-                
-                return true;
-            });
-            
-            renderProjectsTable(filtered);
-        }
-
-        // 项目模态框管理
-        function openProjectModal(projectId = null) {
-            currentEditingProject = projectId;
-            const modal = document.getElementById('project-modal');
-            const title = document.getElementById('project-modal-title');
-            
-            if (projectId) {
-                title.textContent = '编辑项目信息';
-                const project = projectsData.find(p => p.id === projectId);
-                if (project) {
-                    document.getElementById('project-type').value = project.type;
-                    document.getElementById('project-name').value = project.name;
-                    document.getElementById('project-leader').value = project.leader || '';
-                    document.getElementById('project-supervisor').value = project.supervisor;
-                    document.getElementById('start-date').value = project.startDate || '';
-                    document.getElementById('end-date').value = project.endDate || '';
-                }
-            } else {
-                title.textContent = '添加项目信息';
-                document.getElementById('project-form').reset();
-            }
-            
-            modal.classList.add('active');
-        }
-
-        function closeProjectModal() {
-            document.getElementById('project-modal').classList.remove('active');
-            currentEditingProject = null;
-        }
-
-        function editProject(projectId) {
-            openProjectModal(projectId);
-        }
-
-        function deleteProject(projectId) {
-            if (confirm('确定要删除这个项目吗？')) {
-                projectsData = projectsData.filter(p => p.id !== projectId);
-                renderProjectsTable(projectsData);
-                updateStats();
-                showMessage('项目删除成功', 'success');
-            }
-        }
-
-        function saveProject() {
-            const form = document.getElementById('project-form');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-            
-            const loadingEl = document.getElementById('project-loading');
-            const textEl = document.getElementById('project-save-text');
-            
-            loadingEl.style.display = 'inline-block';
-            textEl.style.display = 'none';
-            
-            setTimeout(() => {
-                const projectData = {
-                    type: document.getElementById('project-type').value,
-                    name: document.getElementById('project-name').value,
-                    leader: document.getElementById('project-leader').value || null,
-                    supervisor: document.getElementById('project-supervisor').value,
-                    startDate: document.getElementById('start-date').value || null,
-                    endDate: document.getElementById('end-date').value || null
-                };
-                
-                if (currentEditingProject) {
-                    // 编辑现有项目
-                    const index = projectsData.findIndex(p => p.id === currentEditingProject);
-                    if (index !== -1) {
-                        projectsData[index] = { ...projectsData[index], ...projectData };
-                        showMessage('项目信息更新成功', 'success');
-                    }
-                } else {
-                    // 添加新项目
-                    const newId = Math.max(...projectsData.map(p => p.id), 0) + 1;
-                    projectsData.push({ id: newId, ...projectData });
-                    showMessage('项目信息添加成功', 'success');
-                }
-                
-                renderProjectsTable(projectsData);
-                updateStats();
-                closeProjectModal();
-                
-                loadingEl.style.display = 'none';
-                textEl.style.display = 'inline';
-            }, 1000);
-        }
-
-        function refreshProjects() {
-            loadProjectsData();
-            showMessage('项目数据已刷新', 'success');
-        }
-
-        function exportProjects() {
-            const csv = generateProjectsCSV(projectsData);
-            downloadCSV(csv, '学生项目数据.csv');
-            showMessage('数据导出成功', 'success');
-        }
-
-        // CSV导出功能
-        function generateTeachersCSV(data) {
-            const headers = ['教师姓名', '21学年第2学期评教分数', '22学年第1学期评教分数', '学校排名', '学院排名', '加分'];
-            const rows = data.map(teacher => [
-                teacher.name,
-                teacher.semester1 || '',
-                teacher.semester2 || '',
-                teacher.schoolRank,
-                teacher.collegeRank,
-                teacher.bonus
-            ]);
-            
-            return [headers, ...rows]
-                .map(row => row.map(cell => `"${cell}"`).join(','))
-                .join('\n');
-        }
-
-        function generateProjectsCSV(data) {
-            const headers = ['项目类型', '项目名称', '项目负责人', '指导老师', '立项时间', '结项时间', '状态'];
-            const rows = data.map(project => [
-                project.type,
-                project.name,
-                project.leader || '',
-                project.supervisor,
-                formatDate(project.startDate),
-                formatDate(project.endDate),
-                project.endDate ? '已结项' : '进行中'
-            ]);
-            
-            return [headers, ...rows]
-                .map(row => row.map(cell => `"${cell}"`).join(','))
-                .join('\n');
-        }
-
-        function downloadCSV(content, filename) {
-            const blob = new Blob(['\ufeff' + content], { type: 'text/csv;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        }
-
-        // 页面初始化
+        // 添加一些交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            initializeTeachersData();
-            initializeProjectsData();
-            
-            // 点击模态框外部关闭
-            document.getElementById('teacher-modal').addEventListener('click', function(e) {
-                if (e.target === this) closeTeacherModal();
+            const cards = document.querySelectorAll('.system-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
             });
             
-            document.getElementById('project-modal').addEventListener('click', function(e) {
-                if (e.target === this) closeProjectModal();
-            });
-            
-            // ESC键关闭模态框
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeTeacherModal();
-                    closeProjectModal();
+            // 检查系统状态
+            setTimeout(() => {
+                const statusItems = document.querySelectorAll('.status-item');
+                statusItems.forEach(item => {
+                    item.classList.add('success');
+                });
+            }, 2000);
+        });
+        
+        // 键盘快捷键支持
+        document.addEventListener('keydown', function(e) {
+            if (e.altKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        window.location.href = 'editable_system.html';
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        window.location.href = 'complete_system.html';
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        window.location.href = 'supabase_system.html';
+                        break;
+                    case '4':
+                        e.preventDefault();
+                        window.location.href = 'deploy-status.html';
+                        break;
+                    case 'h':
+                    case 'H':
+                        e.preventDefault();
+                        window.location.href = 'system-hub.html';
+                        break;
                 }
-            });
-            
-            showMessage('系统初始化完成', 'success');
+            }
         });
     </script>
 </body>

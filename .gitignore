@@ -64,3 +64,4 @@ ENV/
 # Personal notes (keep private)
 NOTES.md
 TODO.md
+.vercel
