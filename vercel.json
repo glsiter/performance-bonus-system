@@ -14,7 +14,7 @@
   "routes": [
     {
       "src": "/",
-      "dest": "/complete_system.html"
+      "dest": "/editable_system.html"
     },
     {
       "src": "/simple",
@@ -23,6 +23,10 @@
     {
       "src": "/complete",
       "dest": "/complete_system.html"
+    },
+    {
+      "src": "/editable",
+      "dest": "/editable_system.html"
     },
     {
       "src": "/frontend/(.*)",
