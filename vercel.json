@@ -14,7 +14,7 @@
   "routes": [
     {
       "src": "/",
-      "dest": "/editable_system.html"
+      "dest": "/supabase_system.html"
     },
     {
       "src": "/simple",
@@ -27,6 +27,10 @@
     {
       "src": "/editable",
       "dest": "/editable_system.html"
+    },
+    {
+      "src": "/cloud",
+      "dest": "/supabase_system.html"
     },
     {
       "src": "/frontend/(.*)",
